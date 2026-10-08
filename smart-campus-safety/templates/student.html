@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Safety Home - SMART CAMPUS SAFETY</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Site Navigation -->
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="/student" class="brand-link">
+                <span class="brand-shield">🛡️</span>
+                <div class="brand-text">
+                    <h1>SMART CAMPUS SAFETY</h1>
+                    <p>Student Safety Portal</p>
+                </div>
+            </a>
+            <div class="header-actions">
+                <button type="button" class="btn btn-secondary btn-sm" onclick="logoutStudent()">
+                    Log Out
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-wrapper">
+        <!-- Welcome Greeting -->
+        <div class="student-greeting">
+            <div class="greeting-text">
+                <h2>Welcome, <span id="user-display-name">{{ name or 'Student' }}</span> 👋</h2>
+                <p>Campus Dispatch is monitoring in real time. In an emergency, tap SOS or select a category below.</p>
+            </div>
+            <div class="status-beacon">
+                <span class="beacon-dot"></span> Protected Active
+            </div>
+        </div>
+
+        <!-- Large Pulsing Red SOS Button Card -->
+        <section class="sos-trigger-card">
+            <div class="sos-instruction">Press For Immediate Emergency Assistance</div>
+            
+            <a href="/emergency" class="sos-pulsing-btn" id="btn-main-sos" aria-label="Trigger SOS Alert">
+                <span>SOS</span>
+                <span class="sos-subtext">EMERGENCY</span>
+            </a>
+
+            <p class="sos-note">
+                Broadcasts an instant high-priority emergency beacon with your live GPS location to campus security responders.
+            </p>
+        </section>
+
+        <!-- Four Quick Emergency Action Buttons -->
+        <section class="quick-buttons-section">
+            <div class="section-label">Quick Emergency Categories</div>
+            <div class="quick-buttons-grid">
+                <!-- 1. Medical -->
+                <a href="/emergency?type=Medical" class="quick-action-card">
+                    <span class="quick-icon">🚑</span>
+                    <span class="quick-title">Medical</span>
+                </a>
+
+                <!-- 2. Security -->
+                <a href="/emergency?type=Security" class="quick-action-card">
+                    <span class="quick-icon">🛡️</span>
+                    <span class="quick-title">Security</span>
+                </a>
+
+                <!-- 3. Fire -->
+                <a href="/emergency?type=Fire" class="quick-action-card">
+                    <span class="quick-icon">🔥</span>
+                    <span class="quick-title">Fire</span>
+                </a>
+
+                <!-- 4. Other -->
+                <a href="/emergency?type=Other" class="quick-action-card">
+                    <span class="quick-icon">⚠️</span>
+                    <span class="quick-title">Other</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- My Previous Alerts Section -->
+        <section class="alerts-card">
+            <div class="alerts-header">
+                <h3>My Previous Alerts</h3>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="fetchPreviousAlerts()">
+                    🔄 Refresh
+                </button>
+            </div>
+
+            <div id="alerts-container" class="alerts-list">
+                <div class="text-center text-muted" style="padding: 2rem 0;">
+                    Loading your alert history...
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Toast Notification Mount Point -->
+    <div id="toast-container"></div>
+
+    <footer class="site-footer">
+        <p>SMART CAMPUS SAFETY &bull; 24/7 Security Hotline: +1 (555) 911-SAFE</p>
+    </footer>
+
+    <script src="/static/js/student.js"></script>
+</body>
+</html>

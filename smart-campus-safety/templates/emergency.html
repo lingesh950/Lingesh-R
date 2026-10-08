@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send Emergency Alert - SMART CAMPUS SAFETY</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body style="background-color: #fff1f2;">
+    <!-- Header -->
+    <header class="site-header" style="background-color: #450a0a; border-bottom: 2px solid #b91c1c;">
+        <div class="header-inner">
+            <a href="/student" class="brand-link">
+                <span class="brand-shield">🚨</span>
+                <div class="brand-text">
+                    <h1>CAMPUS EMERGENCY SOS</h1>
+                    <p>Live Incident Reporting</p>
+                </div>
+            </a>
+            <div class="header-actions">
+                <a href="/student" class="btn btn-secondary btn-sm">
+                    &larr; Back to Home
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-wrapper">
+        <div class="emergency-card-wrapper">
+            <!-- EMERGENCY SUBMISSION FORM CONTAINER -->
+            <div id="form-container">
+                <div class="emergency-header-box">
+                    <h2>BROADCAST EMERGENCY ALERT</h2>
+                    <p>Provide details below to dispatch immediate campus first responders.</p>
+                </div>
+
+                <div class="emergency-body">
+                    <form id="emergency-alert-form" onsubmit="submitAlert(event)">
+                        <!-- Emergency Type Dropdown -->
+                        <div class="form-group">
+                            <label for="emergency-type-select">
+                                Emergency Type <span class="text-red">*</span>
+                            </label>
+                            <select id="emergency-type-select" class="form-control" required>
+                                <option value="" disabled selected>-- Select Emergency Category --</option>
+                                <option value="Medical">🚑 Medical</option>
+                                <option value="Security">🛡️ Security</option>
+                                <option value="Fire">🔥 Fire</option>
+                                <option value="Other">⚠️ Other</option>
+                            </select>
+                        </div>
+
+                        <!-- Location Section -->
+                        <div class="location-box">
+                            <div class="location-box-header">
+                                <span class="location-title">📍 Current Location</span>
+                                <button type="button" class="btn btn-secondary btn-sm" onclick="acquireGeolocation()">
+                                    🔄 Refresh GPS
+                                </button>
+                            </div>
+
+                            <!-- GPS Status and Coordinates display -->
+                            <div id="geo-status-text" class="form-hint" style="margin-bottom: 0.35rem;">
+                                Detecting your current coordinates...
+                            </div>
+
+                            <div id="geo-coords-display" class="location-coords-display">
+                                Latitude: <strong id="val-lat">Detecting...</strong> | Longitude: <strong id="val-lng">Detecting...</strong>
+                            </div>
+
+                            <!-- Clickable Google Maps Link -->
+                            <div id="maps-link-wrapper" class="hidden">
+                                <a id="google-maps-link" href="#" target="_blank" rel="noopener noreferrer" class="maps-link">
+                                    🗺️ Open in Google Maps &rarr;
+                                </a>
+                            </div>
+
+                            <!-- Fallback Manual Location Field (Shown if permission denied) -->
+                            <div id="manual-location-group" class="form-group hidden" style="margin-top: 0.75rem; margin-bottom: 0;">
+                                <label for="manual-location-input">Manual Location / Building Details</label>
+                                <input
+                                    type="text"
+                                    id="manual-location-input"
+                                    class="form-control"
+                                    placeholder="e.g. Science Block 2nd floor, Room 204 or Quad"
+                                >
+                                <span class="form-hint">GPS access denied. Please specify your location manually.</span>
+                            </div>
+                        </div>
+
+                        <!-- Message Textarea -->
+                        <div class="form-group">
+                            <label for="emergency-message">
+                                Describe the emergency... (Optional)
+                            </label>
+                            <textarea
+                                id="emergency-message"
+                                class="form-control"
+                                placeholder="Describe the emergency... (e.g. Student passed out near auditorium, or saw weapon)"
+                                rows="3"
+                                maxlength="500"
+                            ></textarea>
+                            <span class="form-hint">AI triage will analyze keywords in your description to assign priority.</span>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" id="btn-submit-alert" class="btn btn-red btn-block" style="min-height: 52px; font-size: 1.05rem;">
+                            🚨 SEND ALERT
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- CONFIRMATION SCREEN (Shown after alert is sent) -->
+            <div id="confirmation-container" class="confirmation-card hidden">
+                <div class="confirmation-icon">🚨</div>
+                <h2>ALERT SENT</h2>
+                <p class="subtitle">Campus Dispatch & First Responders have been notified.</p>
+
+                <div class="triage-report-box">
+                    <div class="triage-row">
+                        <span class="triage-label">Alert ID:</span>
+                        <span class="triage-val font-mono" id="confirm-id">#--</span>
+                    </div>
+
+                    <div class="triage-row">
+                        <span class="triage-label">Emergency Type:</span>
+                        <span class="triage-val" id="confirm-type">--</span>
+                    </div>
+
+                    <div class="triage-row">
+                        <span class="triage-label">Priority:</span>
+                        <span id="confirm-priority" class="badge">--</span>
+                    </div>
+
+                    <div class="triage-row">
+                        <span class="triage-label">Recommended Response:</span>
+                        <span class="triage-val" id="confirm-response">--</span>
+                    </div>
+
+                    <div class="triage-row">
+                        <span class="triage-label">Current Status:</span>
+                        <span class="badge badge-status" id="confirm-status">Pending</span>
+                    </div>
+                </div>
+
+                <a href="/student" class="btn btn-primary btn-block">
+                    Back to Home
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Notification Mount Point -->
+    <div id="toast-container"></div>
+
+    <footer class="site-footer">
+        <p>SMART CAMPUS SAFETY &bull; Emergency Response Center</p>
+    </footer>
+
+    <script src="/static/js/emergency.js"></script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Command - SMART CAMPUS SAFETY</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body style="background-color: #f1f5f9;">
+    <!-- Visual Flash Screen Overlay for New Incoming Alerts -->
+    <div id="admin-flash-overlay"></div>
+
+    <!-- Navigation Header -->
+    <header class="site-header" style="background-color: #050a1a; border-bottom: 2px solid #1e293b;">
+        <div class="header-inner">
+            <a href="/admin" class="brand-link">
+                <span class="brand-shield">🛡️</span>
+                <div class="brand-text">
+                    <h1>CAMPUS SECURITY COMMAND</h1>
+                    <p>Dispatch & Incident Control</p>
+                </div>
+            </a>
+            <div class="header-actions">
+                <button type="button" id="btn-toggle-sound" class="btn btn-secondary btn-sm" onclick="toggleAudioNotifications()">
+                    🔊 Sound On
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="handleAdminLogout()">
+                    Log Out
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-wrapper">
+        <!-- PART 1: ACTIVE EMERGENCIES & THREE COUNTERS BANNER -->
+        <section class="admin-counters-banner">
+            <div class="counters-title-row">
+                <h2 class="counters-main-title">
+                    🚨 ACTIVE EMERGENCIES
+                </h2>
+                <div class="status-beacon">
+                    <span class="beacon-dot"></span> Live Polling (3s)
+                </div>
+            </div>
+
+            <!-- Three Counters: Pending, Responding, Resolved -->
+            <div class="counters-grid">
+                <!-- 1. Pending Counter -->
+                <div class="counter-pill counter-pending">
+                    <span class="counter-label">
+                        <span>🔴</span>
+                        <span>Pending</span>
+                    </span>
+                    <span class="counter-val text-red" id="cnt-pending">0</span>
+                </div>
+
+                <!-- 2. Responding Counter -->
+                <div class="counter-pill counter-responding">
+                    <span class="counter-label">
+                        <span>🟡</span>
+                        <span>Responding</span>
+                    </span>
+                    <span class="counter-val" style="color: #f59e0b;" id="cnt-responding">0</span>
+                </div>
+
+                <!-- 3. Resolved Counter -->
+                <div class="counter-pill counter-resolved">
+                    <span class="counter-label">
+                        <span>🟢</span>
+                        <span>Resolved</span>
+                    </span>
+                    <span class="counter-val" style="color: #10b981;" id="cnt-resolved">0</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- PART 4: FILTERS (Status & Emergency Type) -->
+        <section class="admin-filters-card">
+            <div class="filters-row">
+                <div class="filter-group-wrap">
+                    <!-- Status Filter -->
+                    <div class="filter-item">
+                        <label for="filter-status-select">Status Filter:</label>
+                        <select id="filter-status-select" class="filter-select" onchange="applyFilters()">
+                            <option value="ALL">All Statuses</option>
+                            <option value="Pending">🔴 Pending Only</option>
+                            <option value="Responding">🟡 Responding Only</option>
+                            <option value="Resolved">🟢 Resolved Only</option>
+                        </select>
+                    </div>
+
+                    <!-- Type Filter -->
+                    <div class="filter-item">
+                        <label for="filter-type-select">Type Filter:</label>
+                        <select id="filter-type-select" class="filter-select" onchange="applyFilters()">
+                            <option value="ALL">All Categories</option>
+                            <option value="Medical">🚑 Medical</option>
+                            <option value="Security">🛡️ Security</option>
+                            <option value="Fire">🔥 Fire</option>
+                            <option value="Other">⚠️ Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Live Stream Status and Manual Refresh -->
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span id="poll-indicator" style="font-size: 0.75rem; color: #64748b; font-family: var(--font-mono);">
+                        ● Syncing...
+                    </span>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="fetchAdminAlerts(true)">
+                        🔄 Refresh Now
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- PART 2: ALERT CARDS CONTAINER -->
+        <section>
+            <div id="admin-cards-container" class="admin-cards-grid">
+                <div class="card text-center text-muted" style="grid-column: 1 / -1; padding: 3rem 1rem;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">🛡️</div>
+                    <strong>Connecting to Campus Emergency Dispatch stream...</strong>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Toast Notification Mount Point -->
+    <div id="toast-container"></div>
+
+    <footer class="site-footer">
+        <p>SMART CAMPUS SAFETY &bull; Admin Security Dashboard &bull; Step 3</p>
+    </footer>
+
+    <script src="/static/js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMART CAMPUS SAFETY</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Top Site Navigation -->
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="/" class="brand-link">
+                <span class="brand-shield">🛡️</span>
+                <div class="brand-text">
+                    <h1>SMART CAMPUS SAFETY</h1>
+                    <p>Emergency Alert & Response Network</p>
+                </div>
+            </a>
+            <div class="header-actions">
+                <div class="status-beacon">
+                    <span class="beacon-dot"></span> 24/7 Active
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-wrapper">
+        <div class="auth-container">
+            <div class="auth-hero-banner">
+                <h2>SMART CAMPUS SAFETY</h2>
+                <p>Fast emergency assistance, real-time alert triage, and campus protection.</p>
+            </div>
+
+            <!-- Login / Register Card -->
+            <div class="card">
+                <!-- Navigation Tabs -->
+                <div class="auth-tabs">
+                    <button type="button" id="tab-btn-login" class="auth-tab-btn active" onclick="setAuthMode('login')">
+                        LOGIN
+                    </button>
+                    <button type="button" id="tab-btn-register" class="auth-tab-btn" onclick="setAuthMode('register')">
+                        REGISTER
+                    </button>
+                </div>
+
+                <!-- LOGIN FORM -->
+                <form id="login-form" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="login-student-id">Student ID</label>
+                        <input
+                            type="text"
+                            id="login-student-id"
+                            class="form-control"
+                            placeholder="Enter Student ID (e.g. STU001 or admin)"
+                            required
+                            autocomplete="username"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input
+                            type="password"
+                            id="login-password"
+                            class="form-control"
+                            placeholder="Enter Password"
+                            required
+                            autocomplete="current-password"
+                        >
+                    </div>
+
+                    <button type="submit" id="btn-login" class="btn btn-red btn-block">
+                        LOGIN
+                    </button>
+                </form>
+
+                <!-- REGISTER FORM -->
+                <form id="register-form" class="hidden" onsubmit="handleRegister(event)">
+                    <div class="form-group">
+                        <label for="reg-student-id">Student ID</label>
+                        <input
+                            type="text"
+                            id="reg-student-id"
+                            class="form-control"
+                            placeholder="Enter Student ID (e.g. STU003)"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reg-name">Name</label>
+                        <input
+                            type="text"
+                            id="reg-name"
+                            class="form-control"
+                            placeholder="Enter Full Name"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reg-password">Password</label>
+                        <input
+                            type="password"
+                            id="reg-password"
+                            class="form-control"
+                            placeholder="Minimum 6 characters"
+                            required
+                            minlength="6"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reg-confirm-password">Confirm Password</label>
+                        <input
+                            type="password"
+                            id="reg-confirm-password"
+                            class="form-control"
+                            placeholder="Re-enter password"
+                            required
+                            minlength="6"
+                        >
+                    </div>
+
+                    <button type="submit" id="btn-register" class="btn btn-primary btn-block">
+                        REGISTER
+                    </button>
+                </form>
+
+                <!-- Seed accounts quick-switch helper -->
+                <div class="demo-accounts-ribbon">
+                    <div class="demo-ribbon-title">Demo Testing Accounts</div>
+                    <div class="demo-buttons-group">
+                        <button type="button" class="btn-demo-pill" onclick="quickFillLogin('STU001', 'student123')">
+                            🎓 Arun (STU001)
+                        </button>
+                        <button type="button" class="btn-demo-pill" onclick="quickFillLogin('STU002', 'student123')">
+                            🎓 Priya (STU002)
+                        </button>
+                        <button type="button" class="btn-demo-pill" onclick="quickFillLogin('admin', 'admin123')">
+                            👑 Admin (admin)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Notification Mount Point -->
+    <div id="toast-container"></div>
+
+    <footer class="site-footer">
+        <p>SMART CAMPUS SAFETY & EMERGENCY ALERT SYSTEM &bull; Step 2</p>
+    </footer>
+
+    <script src="/static/js/auth.js"></script>
+</body>
+</html>
